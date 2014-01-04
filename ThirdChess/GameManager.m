@@ -50,7 +50,9 @@
     if (operation == GameNextOperationChangePlayer) {
         [self changePlayer];
     }else{
-        [self.delegate NextOperationChangedTo:operation];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate NextOperationChangedTo:operation];
+        });
     }
 }
 
@@ -73,7 +75,9 @@
     }else{
         _player = GamePlayerPersorn;
     }
-    [self.delegate GamePlayerChangedTo:_player];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate GamePlayerChangedTo:_player];
+    });
 }
 -(void)changeHandler{
     if (!_handler.finished) {
@@ -82,13 +86,17 @@
     if (_handler == _handler1) {
         _handler = _handler2;
     }else{
-        //game over
-        [self.delegate GameDidFinishedWithWin:_handler2.winner == GamePlayerPersorn];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //game over
+            [self.delegate GameDidFinishedWithWin:_handler2.winner == GamePlayerPersorn];
+        });
     }
 }
 #pragma mark gameStepHandlerDelegate
 -(void)positionAtPoint:(CGPoint)point stateChangedFrom:(GamePositionState)oldState to:(GamePositionState)state{
-    [self.delegate PositionAtPoint:point hasChangedToState:state];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate PositionAtPoint:point hasChangedToState:state];
+    });
 }
 -(void)dealloc{
     [_data release];

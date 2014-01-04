@@ -18,6 +18,7 @@
     NSArray *positions;
     GameManager *gameManager;
     NSMutableDictionary *spritDic;
+    dispatch_queue_t gameQueue;
 }
 
 @end
@@ -120,6 +121,8 @@
         self.touchMode = kCCTouchesOneByOne;
         self.touchEnabled = true;
         
+        gameQueue = dispatch_queue_create("com.kevin.gameQueue",NULL );
+        
         gameManager = [[GameManager alloc] init];
         gameManager.delegate = self;
         spritDic = [[NSMutableDictionary alloc] initWithCapacity:24];
@@ -138,7 +141,10 @@
             CGRect rect = [[dic objectForKey:@"rect"] CGRectValue];
             if (CGRectContainsPoint(rect, endPoint)) {
                 CGPoint point = [[dic objectForKey:@"point"] CGPointValue];
-                [gameManager clickedAtPoint:point];
+                dispatch_async(gameQueue, ^{
+                    [gameManager clickedAtPoint:point];
+                });
+                break;
             }
         }
     }
@@ -239,6 +245,7 @@
     [positions release];
     [gameManager release];
     [spritDic release];
+    dispatch_release(gameQueue);
     [super dealloc];
 }
 @end
