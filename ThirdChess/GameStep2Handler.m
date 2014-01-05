@@ -42,6 +42,13 @@
                 }
                 return GameNextOperationChangePlayer;
             }
+        }else if(state == [self getStateForPlayer:player]){
+            self.preSelectedPoint = point;
+            _currentOperation = GameNextOperationMove;
+            return GameNextOperationMove;
+        }else{
+            _currentOperation = GameNextOperationSelect;
+            return GameNextOperationSelect;
         }
     }else if(_currentOperation == GameNextOperationDelete){
         if (state == [self getEnemyStateForPlayer:player]) {

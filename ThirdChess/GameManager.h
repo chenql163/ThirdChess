@@ -14,7 +14,7 @@
 
 -(void)GamePlayerChangedTo:(GamePlayer)gamePlayer;
 -(void)PositionAtPoint:(CGPoint)point hasChangedToState:(GamePositionState)state;
--(void)NextOperationChangedTo:(GameNextOperation)nextOperation;
+-(void)NextOperationAtPoint:(CGPoint)point hasChangedTo:(GameNextOperation)nextOperation;
 -(void)GameDidFinishedWithWin:(BOOL)isPlayerWin;
 
 @end

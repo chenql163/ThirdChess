@@ -240,6 +240,24 @@
     deleteLabel.visible = false;
     label.visible = true;
 }
+-(void)blinkSpritsAtPoint:(CGPoint)point{
+    NSArray *spritArray = [self spritArrayAtPoint:point];
+    for (CCSprite *sprit in spritArray) {
+        id blind = [CCBlink actionWithDuration:1 blinks:4];
+        id ever = [CCRepeatForever actionWithAction:blind];
+        [sprit runAction:ever];
+    }
+}
+-(void)unblinkSprits{
+    NSArray *keys = [spritDic allKeys];
+    for (NSValue *key in keys) {
+        NSArray *spritArray = [spritDic objectForKey:key];
+        for (CCSprite *sprit in spritArray) {
+            [sprit stopAllActions];
+            sprit.visible = true;
+        }
+    }
+}
 -(void)GamePlayerChangedTo:(GamePlayer)gamePlayer{
 }
 -(void)PositionAtPoint:(CGPoint)point hasChangedToState:(GamePositionState)state{
@@ -258,10 +276,12 @@
             break;
     }
 }
--(void)NextOperationChangedTo:(GameNextOperation)nextOperation{
+-(void)NextOperationAtPoint:(CGPoint)point hasChangedTo:(GameNextOperation)nextOperation{
+    [self unblinkSprits];
     switch (nextOperation) {
         case GameNextOperationMove:
             [self showPromptLabel:moveLabel];
+            [self blinkSpritsAtPoint:point];
             break;
         case GameNextOperationStay:
             break;

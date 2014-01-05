@@ -19,6 +19,7 @@
     GameStepHandler *_handler;
     GameStep1Handler *_handler1;
     GameStep2Handler *_handler2;
+    CGPoint preClickedPoint;
 }
 @property(nonatomic,assign) GamePlayer currentPlayer;
 @property(nonatomic,assign) GameStep currentStep;
@@ -50,18 +51,19 @@
     if (operation == GameNextOperationChangePlayer) {
         GameNextOperation currentOperation = [_handler currentOperation];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate NextOperationChangedTo:currentOperation];
+            [self.delegate NextOperationAtPoint:preClickedPoint hasChangedTo:currentOperation];
         });
         [self changePlayer];
     }else{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate NextOperationChangedTo:operation];
+            [self.delegate NextOperationAtPoint:preClickedPoint hasChangedTo:operation];
         });
     }
 }
 
 //指定行列的位置点击
 -(void)clickedAtPoint:(CGPoint)point{
+    preClickedPoint = point;
     GameNextOperation operation = [_handler clickedAtPoint:point withCurrentPlayer:_player andGameData:_data];
     [self handleNextOperation:operation];
 }
