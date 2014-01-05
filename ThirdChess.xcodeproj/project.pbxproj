@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18318E6518793F1F00829152 /* BgNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 18318E6418793F1F00829152 /* BgNode.m */; };
 		1854DC19186A7B2000ACF3FF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1854DC18186A7B2000ACF3FF /* QuartzCore.framework */; };
 		1854DC1B186A7B2000ACF3FF /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1854DC1A186A7B2000ACF3FF /* OpenGLES.framework */; };
 		1854DC1D186A7B2000ACF3FF /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1854DC1C186A7B2000ACF3FF /* OpenAL.framework */; };
@@ -154,6 +155,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		18318E6318793F1F00829152 /* BgNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BgNode.h; sourceTree = "<group>"; };
+		18318E6418793F1F00829152 /* BgNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BgNode.m; sourceTree = "<group>"; };
 		1854DC15186A7B2000ACF3FF /* ThirdChess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThirdChess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1854DC18186A7B2000ACF3FF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1854DC1A186A7B2000ACF3FF /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -517,6 +520,8 @@
 				1854DDCF186A7F0B00ACF3FF /* MainLayer.m */,
 				1854DDD9186A8A9300ACF3FF /* GameLayer.h */,
 				1854DDDA186A8A9300ACF3FF /* GameLayer.m */,
+				18318E6318793F1F00829152 /* BgNode.h */,
+				18318E6418793F1F00829152 /* BgNode.m */,
 				18E083CD186C2593005062BD /* GameEnums.h */,
 				18E083CE186C2593005062BD /* GameEnums.m */,
 				1854DDDC186A8B1700ACF3FF /* GameManager.h */,
@@ -1032,6 +1037,7 @@
 				18E083D8186C2A8C005062BD /* GameStep2Handler.m in Sources */,
 				1854DCC0186A7B2200ACF3FF /* CCParticleBatchNode.m in Sources */,
 				1854DD03186A7B2200ACF3FF /* CCTextureAtlas.m in Sources */,
+				18318E6518793F1F00829152 /* BgNode.m in Sources */,
 				1854DDB1186A7B2300ACF3FF /* utility.c in Sources */,
 				1854DD5D186A7B2200ACF3FF /* CCVertex.m in Sources */,
 				1854DD63186A7B2200ACF3FF /* NSThread+performBlock.m in Sources */,

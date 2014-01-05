@@ -8,6 +8,7 @@
 
 #import "GameLayer.h"
 #import "MainLayer.h"
+#import "BgNode.h"
 
 #define TagForGameOverLayer 120
 
@@ -15,11 +16,11 @@
     CCSpriteBatchNode *personBatch;
     CCSpriteBatchNode *computerBatch;
     CGPoint startPoint;
-    NSArray *positions;
     GameManager *gameManager;
     NSMutableDictionary *spritDic;
     dispatch_queue_t gameQueue;
     CCLabelTTF *placeLabel,*cancelLabel,*selectLabel,*moveLabel,*deleteLabel;
+    NSDictionary *positions;
 }
 
 @end
@@ -91,60 +92,18 @@
         [self addChild:deleteLabel z:0];
         
         
-        CCSprite *bgChess = [CCSprite spriteWithFile:@"bgForThree.png"];
-        bgChess.position = ccp(winSize.width * 0.5, bgChess.contentSize.height * 0.5);
-        [self addChild:bgChess z:0];
-        
-        positions = [@[
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(71, 207, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(0, 0)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(145, 207, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(0, 1)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(212, 207, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(0, 2)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(212, 138, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(0, 3)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(212, 74, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(0, 4)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(145, 74, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(0, 5)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(71, 74, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(0, 6)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(71, 138, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(0, 7)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(30, 251, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(1, 0)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(145, 251, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(1, 1)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(246, 251, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(1, 2)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(246, 138, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(1, 3)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(246, 30, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(1, 4)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(145, 30, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(1, 5)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(30, 30, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(1, 6)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(30, 138, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(1, 7)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(-3, 287, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(2, 0)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(145, 287, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(2, 1)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(290, 287, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(2, 2)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(290, 138, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(2, 3)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(290, 0, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(2, 4)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(145, 0, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(2, 5)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(-3, 0, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(2, 6)]},
-                       @{@"rect":[NSValue valueWithCGRect:CGRectMake(-3, 138, 36, 36)],
-                         @"point":[NSValue valueWithCGPoint:ccp(2, 7)]}
-                       ] retain];
+//        CCSprite *bgChess = [CCSprite spriteWithFile:@"bgForThree.png"];
+//        bgChess.position = ccp(winSize.width * 0.5, bgChess.contentSize.height * 0.5);
+//        [self addChild:bgChess z:0];
+        BgNode *bgNode = [BgNode node];
+        float y1 = bgNode.contentSize.height * 0.5;
+        float y2 = (promptLabel.position.y - promptLabel.contentSize.height*0.5) * 0.5;
+        float y = min(y1, y2);
+        bgNode.position = ccp(bgNode.contentSize.width * 0.5, winSize.height-y);
+        CCLOG(@"winsize:%@,promptlabel position:%@,bgnode position:%@",NSStringFromCGSize(winSize),NSStringFromCGPoint(promptLabel.position),NSStringFromCGPoint(bgNode.position));
+        [bgNode calcPoints];
+        positions = bgNode.positionDic;
+        [self addChild:bgNode z:0];
         
         self.touchMode = kCCTouchesOneByOne;
         self.touchEnabled = true;
@@ -165,10 +124,11 @@
     CGPoint endPoint = [[CCDirector sharedDirector] convertTouchToGL:touch];
     if (CGPointEqualToPoint(startPoint, endPoint)) {
         //判断点击的位置
-        for (NSDictionary *dic in positions) {
-            CGRect rect = [[dic objectForKey:@"rect"] CGRectValue];
+        NSArray *keys = [positions allKeys];
+        for (NSValue *key in keys) {
+            CGRect rect = [[positions objectForKey:key] CGRectValue];
             if (CGRectContainsPoint(rect, endPoint)) {
-                CGPoint point = [[dic objectForKey:@"point"] CGPointValue];
+                CGPoint point = [key CGPointValue];
                 dispatch_async(gameQueue, ^{
                     [gameManager clickedAtPoint:point];
                 });
@@ -183,10 +143,11 @@
 }
 #pragma mark gameManagerDelegate
 -(CGPoint)positionForPoint:(CGPoint)point{
-    for (NSDictionary *dic in positions) {
-        CGPoint target = [[dic objectForKey:@"point"] CGPointValue];
+    NSArray *keys = [positions allKeys];
+    for (NSValue *key in keys) {
+        CGPoint target = [key CGPointValue];
         if (CGPointEqualToPoint(point, target)) {
-            CGRect rect = [[dic objectForKey:@"rect"] CGRectValue];
+            CGRect rect = [[positions objectForKey:key] CGRectValue];
             return ccp(CGRectGetMidX(rect), CGRectGetMidY(rect));
         }
     }
@@ -322,7 +283,6 @@
     
 }
 -(void)dealloc{
-    [positions release];
     [gameManager release];
     [spritDic release];
     dispatch_release(gameQueue);
