@@ -19,6 +19,7 @@
     GameManager *gameManager;
     NSMutableDictionary *spritDic;
     dispatch_queue_t gameQueue;
+    CCLabelTTF *placeLabel,*cancelLabel,*selectLabel,*moveLabel,*deleteLabel;
 }
 
 @end
@@ -56,12 +57,39 @@
         [self addChild:personLabel z:0];
         
         CCSprite *computer = [CCSprite spriteWithFile:@"sprit2ForThree.png"];
-        computer.position = ccpAdd(person.position, ccp(0, -person.contentSize.height - 10));
+        computer.position = ccpAdd(personLabel.position, ccp(personLabel.contentSize.width+computer.contentSize.width, 0));
         [computerBatch addChild:computer];
         CCLabelTTF *computerLabel = [CCLabelTTF labelWithString:@"电脑" fontName:@"Arial" fontSize:24];
         computerLabel.color = ccc3(0, 0, 0);
         computerLabel.position = ccpAdd(computer.position, ccp(computer.contentSize.width*0.5+computerLabel.contentSize.width, 0));
         [self addChild:computerLabel z:0];
+        
+        CCLabelTTF *promptLabel = [CCLabelTTF labelWithString:@"操作提示:" fontName:@"Arial" fontSize:16];
+        promptLabel.position = ccpAdd(person.position, ccp(0+promptLabel.contentSize.width * 0.5-person.contentSize.width, -person.contentSize.height - 10));
+        promptLabel.color = ccc3(0, 0, 0);
+        [self addChild:promptLabel z:0];
+        
+        placeLabel = [CCLabelTTF labelWithString:@"请选择要放子的位置" fontName:@"Arial" fontSize:16];
+        placeLabel.color = ccc3(0, 255, 0);
+        placeLabel.position = ccpAdd(promptLabel.position, ccp(promptLabel.contentSize.width*0.5+placeLabel.contentSize.width*0.5, 0));
+        [self addChild:placeLabel z:0];
+        cancelLabel = [CCLabelTTF labelWithString:@"请选择要标记为删除的对方棋子" fontName:@"Arial" fontSize:16];
+        cancelLabel.color = placeLabel.color;
+        cancelLabel.position = ccpAdd(promptLabel.position, ccp(promptLabel.contentSize.width * 0.5 + cancelLabel.contentSize.width * 0.5, 0));
+        [self addChild:cancelLabel z:0];
+        selectLabel = [CCLabelTTF labelWithString:@"请选择要移动的棋子" fontName:@"Arial" fontSize:16];
+        selectLabel.color = placeLabel.color;
+        selectLabel.position = ccpAdd(promptLabel.position, ccp(promptLabel.contentSize.width * 0.5 + selectLabel.contentSize.width * 0.5, 0));
+        [self addChild:selectLabel z:0];
+        moveLabel = [CCLabelTTF labelWithString:@"请选择要移动到的位子" fontName:@"Arial" fontSize:16];
+        moveLabel.color = placeLabel.color;
+        moveLabel.position = ccpAdd(promptLabel.position, ccp(promptLabel.contentSize.width*0.5+moveLabel.contentSize.width*0.5, 0));
+        [self addChild:moveLabel z:0];
+        deleteLabel = [CCLabelTTF labelWithString:@"请选择要删除的对方棋子" fontName:@"Arial" fontSize:16];
+        deleteLabel.color = placeLabel.color;
+        deleteLabel.position = ccpAdd(promptLabel.position, ccp(promptLabel.contentSize.width*.5+deleteLabel.contentSize.width*0.5, 0));
+        [self addChild:deleteLabel z:0];
+        
         
         CCSprite *bgChess = [CCSprite spriteWithFile:@"bgForThree.png"];
         bgChess.position = ccp(winSize.width * 0.5, bgChess.contentSize.height * 0.5);
@@ -149,6 +177,10 @@
         }
     }
 }
+-(void)onEnter{
+    [self showPromptLabel:placeLabel];
+    [super onEnter];
+}
 #pragma mark gameManagerDelegate
 -(CGPoint)positionForPoint:(CGPoint)point{
     for (NSDictionary *dic in positions) {
@@ -200,6 +232,14 @@
     }
     [spritArray removeAllObjects];
 }
+-(void)showPromptLabel:(CCLabelTTF *)label{
+    placeLabel.visible = false;
+    cancelLabel.visible = false;
+    selectLabel.visible = false;
+    moveLabel.visible = false;
+    deleteLabel.visible = false;
+    label.visible = true;
+}
 -(void)GamePlayerChangedTo:(GamePlayer)gamePlayer{
 }
 -(void)PositionAtPoint:(CGPoint)point hasChangedToState:(GamePositionState)state{
@@ -219,7 +259,27 @@
     }
 }
 -(void)NextOperationChangedTo:(GameNextOperation)nextOperation{
-    
+    switch (nextOperation) {
+        case GameNextOperationMove:
+            [self showPromptLabel:moveLabel];
+            break;
+        case GameNextOperationStay:
+            break;
+        case GameNextOperationPlace:
+            [self showPromptLabel:placeLabel];
+            break;
+        case GameNextOperationCancel:
+            [self showPromptLabel:cancelLabel];
+            break;
+        case GameNextOperationChangePlayer:
+            break;
+        case GameNextOperationDelete:
+            [self showPromptLabel:deleteLabel];
+            break;
+        case GameNextOperationSelect:
+            [self showPromptLabel:selectLabel];
+            break;
+    }
 }
 -(void)GameDidFinishedWithWin:(BOOL)isPlayerWin{
     NSString *msg = isPlayerWin ? @"你赢了" : @"你输了";

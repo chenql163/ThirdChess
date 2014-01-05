@@ -48,6 +48,10 @@
     [self changeHandler];
     //检查下一步操作
     if (operation == GameNextOperationChangePlayer) {
+        GameNextOperation currentOperation = [_handler currentOperation];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate NextOperationChangedTo:currentOperation];
+        });
         [self changePlayer];
     }else{
         dispatch_async(dispatch_get_main_queue(), ^{

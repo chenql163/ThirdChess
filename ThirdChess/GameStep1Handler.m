@@ -45,10 +45,6 @@
     }
     return GameNextOperationStay;
 }
-//默认操作,放子
--(GameNextOperation)defaultOperation{
-    return GameNextOperationPlace;
-}
 //检查是否此阶段已经结束,返回true已经结束,false未结束
 -(BOOL)isFinishedWithGameData:(GameData*)data{
     //如果所有位置都不是空,则表示已经结束

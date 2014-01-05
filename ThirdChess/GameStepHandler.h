@@ -32,8 +32,8 @@
 -(GamePositionState)getStateForPlayer:(GamePlayer)player;
 //指定行列位置点击通知,如果点击引起的数据改变,则返回true,否则返回false
 -(GameNextOperation)clickedAtPoint:(CGPoint)point withCurrentPlayer:(GamePlayer)player andGameData:(GameData*)data;
-//当前游戏步骤下的默认操作
--(GameNextOperation)defaultOperation;
+//当前游戏步骤操作
+-(GameNextOperation)currentOperation;
 //当前游戏步骤是否已经结束
 -(BOOL)finished;
 //整个游戏结束后的胜利者

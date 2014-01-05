@@ -81,9 +81,9 @@
 -(GameNextOperation)clickedAtPoint:(CGPoint)point withCurrentPlayer:(GamePlayer)player andGameData:(GameData*)data{
     return GameNextOperationStay;
 }
-//当前点击完成后下一步的操作
--(GameNextOperation)defaultOperation{
-    return GameNextOperationStay;
+//当前操作
+-(GameNextOperation)currentOperation{
+    return _currentOperation;
 }
 //当前游戏步骤是否已经结束
 -(BOOL)finished{

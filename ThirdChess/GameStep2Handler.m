@@ -56,10 +56,6 @@
     }
     return GameNextOperationStay;
 }
-//默认操作,放子
--(GameNextOperation)defaultOperation{
-    return GameNextOperationMove;
-}
 //检查是否已经结束
 -(BOOL)isFinishedWithGameData:(GameData*)data{
     NSInteger personCount = 0,computerCount = 0;
